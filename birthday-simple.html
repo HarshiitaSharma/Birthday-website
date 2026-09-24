@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A little something for you 💌</title>
+
+<!-- Fonts: one handwritten, one clean body font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   EVERYTHING is in this one file on purpose — nothing to cache,
+   nothing to go out of sync, nothing to re-upload separately.
+   ============================================================ */
+
+:root{
+  --cream: #FFF8F1;
+  --blush: #F7DCE6;
+  --pink: #E9A4BE;
+  --lavender: #D9CBEE;
+  --ink: #4A3B52;
+  --ink-soft: #8a7893;
+}
+*{ box-sizing: border-box; }
+html,body{ margin:0; overflow-x:hidden; }
+body{
+  font-family: 'Quicksand', sans-serif;
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--cream), #fbf2f8);
+  min-height: 100vh;
+}
+h1,h2,p{ margin:0; }
+img{ max-width:100%; display:block; }
+
+/* ---------- Intro screen ---------- */
+#intro{
+  min-height: 100vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap: 24px; padding:40px 28px; text-align:center;
+  transition: opacity .6s ease, transform .6s ease;
+}
+#intro.leaving{ opacity:0; transform:scale(1.05); pointer-events:none; }
+.envelope{ font-size:4.5rem; animation: bob 2.4s ease-in-out infinite; }
+@keyframes bob{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-10px);} }
+.intro-label{ font-family:'Caveat',cursive; font-size:1.65rem; color:var(--ink-soft); }
+.intro-title{ font-family:'Caveat',cursive; font-size:3.3rem; color:var(--ink); line-height:1.2; }
+
+/* ---------- Buttons ---------- */
+.btn{
+  font-family:'Quicksand',sans-serif; font-weight:700; font-size:1.1rem;
+  border:none; border-radius:999px; padding:18px 34px; min-height: 58px;
+  cursor:pointer; background: linear-gradient(135deg, var(--pink), #e6b4cd);
+  color:#fff; box-shadow: 0 10px 22px -10px rgba(233,164,190,.7);
+}
+.btn:active{ transform:scale(.96); }
+.btn-outline{ background:#fff; color:var(--ink); border:1.5px solid var(--pink); box-shadow:none; }
+
+/* ---------- Main experience ---------- */
+#main{ display:none; }
+section{ max-width:600px; margin:0 auto; padding: 90px 26px 0; text-align:center; }
+.eyebrow{ font-family:'Caveat',cursive; font-size:1.5rem; color:var(--pink); }
+h2{ font-family:'Caveat',cursive; font-size:2.5rem; margin: 2px 0 30px; }
+
+/* Reveal */
+#reveal{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding-top:40px; }
+#revealTitle{ font-family:'Caveat',cursive; font-size:3.5rem; line-height:1.15; }
+#revealName{ color:var(--pink); }
+#revealSub{ color:var(--ink-soft); max-width:400px; line-height:1.6;font-size: 1.08rem;}
+
+/* Polaroids */
+.gallery{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+.polaroid{ background:#fff; padding:10px 10px 18px; border-radius:6px; box-shadow:0 10px 20px -12px rgba(90,60,80,.25); transform:rotate(-2deg); opacity:0; transform-origin:center; transition: opacity .6s ease, transform .6s ease; }
+.polaroid.show{ opacity:1; }
+.polaroid:nth-child(2n){ transform: rotate(2deg); }
+.polaroid.show:nth-child(2n){ transform: rotate(2deg); }
+.polaroid.show:nth-child(odd){ transform: rotate(-2deg); }
+.p-photo{ width:100%; aspect-ratio:1/1; border-radius:3px; background:linear-gradient(135deg,var(--blush),var(--lavender)); display:flex; align-items:center; justify-content:center; font-size:2.5em; overflow:hidden; }
+.p-photo img{ width:100%; height:100%; object-fit:cover; }
+.p-caption{ font-family:'Caveat',cursive; font-size:1.15rem; text-align:center; margin-top:8px; }
+
+/* Reasons flip cards */
+.reasons{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.reason{ perspective:1000px; height:150px; }
+.reason-inner{ position:relative; width:100%; height:100%; transition: transform .5s ease; transform-style:preserve-3d; cursor:pointer; }
+.reason.flipped .reason-inner{ transform:rotateY(180deg); }
+.reason-face{ position:absolute; inset:0; border-radius:16px; backface-visibility:hidden; display:flex; align-items:center; justify-content:center; padding:16px; font-weight:600; font-size:1rem; box-shadow:0 8px 18px -12px rgba(90,60,80,.2); }
+.reason-front{ background:linear-gradient(160deg,var(--blush),#fff); color:var(--pink); font-family:'Caveat',cursive; font-size:1.3rem; }
+.reason-back{ background:linear-gradient(160deg,var(--lavender),#fff); transform:rotateY(180deg); }
+
+/* Letter */
+#letter{ background:#faf3fb; padding-top:70px; padding-bottom:70px; }
+.letter-kicker{ font-family:'Caveat',cursive; font-size:1.5rem; color:var(--ink-soft); margin-bottom:22px; }
+.letter-paper{ background:#fffcf9; border-radius:20px; padding:28px 22px; text-align:left; box-shadow:0 16px 32px -18px rgba(90,60,80,.25); }
+.letter-paper p{ line-height:1.85; margin-bottom:14px; }
+.letter-sign{ font-family:'Caveat',cursive; font-size:1.3rem; color:var(--pink); text-align:right; }
+
+/* Finale trigger */
+#finaleSection{ padding-bottom:80px; }
+.made-with{ font-family:'Caveat',cursive; color:var(--ink-soft); margin-top:30px; font-size:1.1rem; }
+
+/* Full screen finale overlay */
+#finaleOverlay{
+  position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+  background: radial-gradient(ellipse at top, #fdebf3, var(--cream) 50%, #f3e7fb);
+  z-index:100; text-align:center; padding:30px;
+}
+#finaleOverlay.show{ display:flex; }
+#finaleOverlay canvas{ position:absolute; inset:0; width:100%; height:100%; }
+.finale-inner{ position:relative; z-index:2; max-width:420px; }
+.finale-name{ font-family:'Caveat',cursive; font-size:2rem; color:var(--pink); }
+.finale-headline{ font-family:'Caveat',cursive; font-size:2.8rem; margin:4px 0 16px; }
+.finale-msg{ line-height:1.9; white-space:pre-line; margin-bottom:26px; }
+
+@media (min-width:600px){
+  .gallery{
+    grid-template-columns:1fr 1fr 1fr;
+    gap:24px;
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     1. INTRO
+============================================================ -->
+<div id="intro">
+  <div class="envelope">💌</div>
+  <p class="intro-label">for my favorite human</p>
+  <h1 class="intro-title">A little something<br>for you...</h1>
+  <button class="btn" onclick="openEnvelope()">Open it 💌</button>
+</div>
+
+<!-- ============================================================
+     MAIN EXPERIENCE
+============================================================ -->
+<div id="main">
+
+  <!-- 2. REVEAL -->
+  <section id="reveal">
+    <p class="eyebrow">you made it</p>
+    <h1 id="revealTitle">HAPPY BIRTHDAY,<br><span id="revealName">FRIEND</span> 🎀</h1>
+    <p class="eyebrow" id="revealNickname" style="margin-top:-16px;"></p>
+    <p id="revealSub">To my favorite human, my chaos partner, and the person who somehow still puts up with me.</p>
+    <button class="btn btn-outline" onclick="scrollToId('gallery')">Okay, what did you make? →</button>
+  </section>
+
+  <!-- 3. GALLERY -->
+  <section id="gallery">
+    <p class="eyebrow">a whole world, just ours</p>
+    <h2>Our little universe</h2>
+    <div class="gallery" id="galleryGrid"></div>
+  </section>
+
+  <!-- 4. REASONS -->
+  <section id="reasons-section">
+    <p class="eyebrow">a very official list</p>
+    <h2>Reasons you're my best friend</h2>
+    <div class="reasons" id="reasonsGrid"></div>
+  </section>
+
+  <!-- 5. THE LETTER -->
+  <section id="letter">
+    <p class="letter-kicker">okay... jokes aside.</p>
+    <div class="letter-paper">
+      <p id="letterGreeting">Dear [NAME],</p>
+      <div id="letterBody"></div>
+      <p class="letter-sign" id="letterSign">— me, always</p>
+    </div>
+  </section>
+
+  <!-- 6. FINALE TRIGGER -->
+  <section id="finaleSection">
+    <p class="eyebrow">last thing, promise</p>
+    <h2>One last thing...</h2>
+    <button class="btn" onclick="openFinale()">Open the final surprise 🎁</button>
+    <p class="made-with">Made with way too much love, just for you. 💗</p>
+  </section>
+
+</div>
+
+<!-- Full screen finale -->
+<div id="finaleOverlay">
+  <canvas id="confetti"></canvas>
+  <div class="finale-inner">
+    <p class="finale-name" id="finaleName">FRIEND</p>
+    <h2 class="finale-headline">HAPPY BIRTHDAY!!</h2>
+    <p class="finale-msg" id="finaleMsg"></p>
+    <button class="btn btn-outline" onclick="closeFinale()">close, but softly 💗</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CUSTOMIZE EVERYTHING HERE — this is the only part you need to touch.
+   ============================================================ */
+
+const name = "AASTHA";
+const nickname = "Pasta"; // shows as a little handwritten aside under her name in the reveal
+
+const revealSubtitle = "To my favorite human, my chaos partner, and the person who somehow still puts up with me.";
+
+// Add 6-9 photos. If "src" is left empty or the file is missing, a heart
+// shows instead — so this never looks broken while you gather photos.
+const photos = [
+  { src: "image1.png", caption: "us at our peak!" },
+  { src: "image2.png", caption: "we actually thought this was a good idea(aadhe raste darr kr bhaag aaye)" },
+  { src: "image.png", caption: "one of my favorite memories" },
+  { src: "image4.png", caption: "why do we look like this 😭" },
+  { src: "diva.png", caption: "DIVAAA" },
+  { src: "aww.png", caption: "just an aww moment" },
+];
+
+// 6-9 short reasons. Keep them short, they need to fit on a card.
+const reasons = [
+  "You tolerate my nonsense.",
+  "You know way too much about me.ifykyk hehe ily",
+  "I can tell you literally anything,legit!",
+  "Life is significantly more chaotic with you.",
+  "You are very very beautiful and I love to flex you.",
+  "Because I ran out of space. (Reason #827)",
+];
+
+// The heartfelt letter — each string becomes its own paragraph.
+const letter = {
+  greeting: "", // left empty on purpose — her opening line already greets Aastha directly
+  paragraphs: [
+    "Happiest birthday to the most amazing beautiful the literal apsara and my loveeee, AASTHA!!!!😫",
+    "Finally LEGALLL!!!💃💃💃💃 Ab aaenge na maze👀 Bro I dont say it but im so freaking proud of you like class mein jo bolna avoid krti thi today she is managing job, clubs, events and so much more!!!",
+    "And tbh i feel myself as lucky ki aap meri bestfriend yk flex😏 Like dude 10 saal ho gye han hume saath and i wouldn't for life of me exchange even a second i spent with you.",
+    "Being with you i feel so elated like ur energy is so infectious so so positive i legit feel so good just thinking about you, like mein literally teri stories replay krke khush hoti hu because u r a literal angel!!!!!",
+    "Like yahan society mein bhi when im talkin' everyone's like wo teri modelling wali frnd hehehehe aur mein fir aapki photos dikha kr flex krti hu🫦.",
+    "But keeping baatein aside I wishhhhh you get everything you desire, ur every small to small wish comes true and you get more than you've ever imagined.",
+    "Happiest happiest birthday to my best friend jiske bina i cant imagine my life. 😭😘",
+  ],
+  signoff: "— me, always"
+};
+
+// The final full-screen message. Use \n for a line break.
+const finaleMessage = "Another year older.\nStill chaotic.\nStill the sunshine and life of every room you enter.\nStill my best friend.\nWouldn't have it any other way.";
+
+
+/* ============================================================
+   Below this line is just the code that renders the above.
+   You shouldn't need to edit anything past here.
+   ============================================================ */
+
+document.getElementById("revealName").textContent = name;
+document.getElementById("revealNickname").textContent = nickname ? `(aka ${nickname} 🍝)` : "";
+document.getElementById("revealSub").textContent = revealSubtitle;
+document.getElementById("finaleName").textContent = name;
+document.getElementById("finaleMsg").textContent = finaleMessage;
+document.getElementById("letterGreeting").textContent = letter.greeting;
+document.getElementById("letterGreeting").style.display = letter.greeting ? "" : "none";
+document.getElementById("letterBody").innerHTML = letter.paragraphs.map(p => `<p>${p}</p>`).join("");
+document.getElementById("letterSign").textContent = letter.signoff;
+
+// gallery
+document.getElementById("galleryGrid").innerHTML = photos.map(p => `
+  <figure class="polaroid">
+    <div class="p-photo">${p.src ? `<img src="${p.src}" alt="">` : "🩷"}</div>
+    <figcaption class="p-caption">${p.caption}</figcaption>
+  </figure>
+`).join("");
+
+// reasons (flip on tap)
+document.getElementById("reasonsGrid").innerHTML = reasons.map((r, i) => `
+  <div class="reason" onclick="this.classList.toggle('flipped')">
+    <div class="reason-inner">
+      <div class="reason-face reason-front">Reason #${i+1}</div>
+      <div class="reason-face reason-back">${r}</div>
+    </div>
+  </div>
+`).join("");
+
+// intro -> main
+function openEnvelope(){
+  const intro = document.getElementById("intro");
+  intro.classList.add("leaving");
+  setTimeout(() => {
+    intro.style.display = "none";
+    document.getElementById("main").style.display = "block";
+    window.scrollTo(0,0);
+    // reveal polaroids one by one
+    document.querySelectorAll(".polaroid").forEach((el, i) => {
+      setTimeout(() => el.classList.add("show"), 150 + i * 90);
+    });
+  }, 500);
+}
+
+function scrollToId(id){
+  document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+}
+
+// finale + lightweight confetti (plain canvas, no libraries)
+function openFinale(){
+  const overlay = document.getElementById("finaleOverlay");
+  overlay.classList.add("show");
+  document.body.style.overflow = "hidden";
+  fireConfetti();
+}
+function closeFinale(){
+  document.getElementById("finaleOverlay").classList.remove("show");
+  document.body.style.overflow = "";
+}
+
+function fireConfetti(){
+  const canvas = document.getElementById("confetti");
+  const ctx = canvas.getContext("2d");
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
+  const colors = ["#E9A4BE","#D9CBEE","#F7DCE6","#ffffff"];
+  const particles = Array.from({length:70}, () => ({
+    x: Math.random()*canvas.width,
+    y: -20 - Math.random()*canvas.height*0.3,
+    r: 4 + Math.random()*5,
+    c: colors[Math.floor(Math.random()*colors.length)],
+    vy: 1.5 + Math.random()*2.5,
+    vx: (Math.random()-0.5)*1.5,
+    rot: Math.random()*Math.PI,
+    vr: (Math.random()-0.5)*0.15
+  }));
+  let frame = 0;
+  function tick(){
+    frame++;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p => {
+      p.y += p.vy; p.x += p.vx; p.rot += p.vr;
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*0.6);
+      ctx.restore();
+    });
+    if(frame < 160) requestAnimationFrame(tick);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  requestAnimationFrame(tick);
+}
+</script>
+</body>
+</html>
